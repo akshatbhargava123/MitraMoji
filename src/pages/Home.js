@@ -1,24 +1,18 @@
-import React, { Component } from 'react'
-import ChannelInput from "../components/ChannelInput";
-import Call from "../components/Call";
+import React, { Component } from 'react';
+import './Home.css';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      channel: ""
+      userName: 'dsmmks'
     };
   }
-
-  selectChannel = channel => {
-    this.setState({ channel });
-  };
 
   render() {
     return (
       <div className="App">
-        <ChannelInput selectChannel={this.selectChannel} />
-        <Call channel={this.state.channel} />
+        <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/female1-512.png" alt="avatar" className="avatar" />
       </div>
     );
   }
