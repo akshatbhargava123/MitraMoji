@@ -24,8 +24,6 @@ export default class Login extends Component {
         <div className="login-block">
             <h1>मित्रMoji</h1>
             <input type="text" placeholder="Email" name="userName" id="username" onChange={this.onChange} />
-            <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
-            <p class="forget">Forget Password</p>
             <button onClick={this.login}>Submit</button>
         </div>
       </div>

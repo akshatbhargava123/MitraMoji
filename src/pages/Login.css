@@ -70,17 +70,17 @@ body {
 }
 
 .login-block input:active, .login-block input:focus {
-  border: 1px solid #ff656c;
+  border: 1px solid #a7935e;
 }
 
 .login-block button {
   width: 100%;
   height: 40px;
-  background: #ff656c;
+  background: #f8c331;
   box-sizing: border-box;
   border-radius: 5px;
-  border: 1px solid #e15960;
-  color: #fff;
+  border: 1px solid #a7935e;
+  color: black;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 15px;
@@ -90,5 +90,5 @@ body {
 }
 
 .login-block button:hover {
-  background: #ff7b81;
+  background: #f8c331;
 }
