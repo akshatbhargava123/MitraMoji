@@ -1,9 +1,11 @@
 body {
   font-family: Montserrat;
+}
+.main-container {
   background: url('https://data.whicdn.com/images/147451453/original.jpg') no-repeat fixed center center;
   background-size: cover;
+  height: 100vh;
 }
-
 .login-block {
   width: 320px;
   padding: 20px;

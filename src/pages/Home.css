@@ -1,8 +1,11 @@
 .avatar {
   height: 200px;
   width: 200px;
+  display: flex;
+  justify-content: center
 }
 
-.container {
-  
+.App {
+  background: white;
+  height: 100%
 }
