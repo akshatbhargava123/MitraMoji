@@ -1,23 +1,17 @@
 import React, { Component } from "react";
-import ChannelInput from "./components/ChannelInput";
 import Call from "./components/Call";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      channel: ""
+      channel: "MY_CHANNEL"
     };
   }
-
-  selectChannel = channel => {
-    this.setState({ channel });
-  };
 
   render() {
     return (
       <div className="App">
-        <ChannelInput selectChannel={this.selectChannel} />
         <Call channel={this.state.channel} />
       </div>
     );
