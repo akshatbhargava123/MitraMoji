@@ -6,16 +6,21 @@ let client = AgoraRTC.createClient({ mode: "live", codec: "h264" });
 const USER_ID = Math.floor(Math.random() * 1000000001);
 
 export default class Call extends React.Component {
-	localStream = AgoraRTC.createStream({
-    streamID: USER_ID,
-    audio: true,
-    video: true,
-    screen: false
-  });
 
-  state = {
-    remoteStreams: []
-	};
+	constructor(props) {
+		super(props);
+
+		this.localStream = AgoraRTC.createStream({
+			streamID: USER_ID,
+			audio: true,
+			video: true,
+			screen: false
+		});
+
+		this.state = {
+			remoteStreams: []
+		};
+	}
 	
   componentDidMount() {
     this.initLocalStream();
@@ -30,11 +35,11 @@ export default class Call extends React.Component {
 
   initLocalStream = () => {
     this.localStream.init(
-      function() {
+      () => {
         console.log("getUserMedia successfully");
         this.localStream.play("agora_local");
       },
-      function(err) {
+      (err) => {
         console.log("getUserMedia failed", err);
       }
     );
@@ -43,10 +48,10 @@ export default class Call extends React.Component {
   initClient = () => {
     client.init(
       APP_ID,
-      function() {
+      () => {
         console.log("AgoraRTC client initialized");
       },
-      function(err) {
+      (err) => {
         console.log("AgoraRTC client init failed", err);
       }
     );
@@ -77,7 +82,7 @@ export default class Call extends React.Component {
 				console.log(this.state.remoteStreams);
         // Subscribe after new remoteStreams state set to make sure
         // new stream dom el has been rendered for agora.io sdk to pick up
-        client.subscribe(stream, function(err) {
+        client.subscribe(stream, (err) => {
           console.log("Subscribe stream failed", err);
         });
       }
@@ -89,17 +94,17 @@ export default class Call extends React.Component {
       null,
       this.props.channel,
       USER_ID,
-      function(uid) {
+      (uid) => {
         console.log("User " + uid + " join channel successfully");
-        client.publish(this.localStream, function(err) {
+        client.publish(this.localStream, (err) => {
           console.log("Publish local stream error: " + err);
         });
 
-        client.on("stream-published", function(evt) {
+        client.on("stream-published", (evt) => {
           console.log("Publish local stream successfully");
         });
       },
-      function(err) {
+      (err) => {
         console.log("Join channel failed", err);
       }
     );
