@@ -1,18 +1,17 @@
 import React from "react";
 import AgoraRTC from "agora-rtc-sdk";
 import affdex from './affectiva';
-import { APP_ID, GAME_STATES } from '../constants';
+import { APP_ID } from '../constants';
 import './Game.css';
 
 let client = AgoraRTC.createClient({ mode: "live", codec: "h264" });
 const USER_ID = Math.floor(Math.random() * 1000000001);
 
-export default class Call extends React.Component {
+export default class Game extends React.Component {
 
 	constructor(props) {
 		super(props);
 
-		console.log('component initialised!');
 		this.localStream = AgoraRTC.createStream({
 			streamID: USER_ID,
 			audio: true,
