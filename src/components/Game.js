@@ -223,7 +223,8 @@ export default class Call extends React.Component {
 			timeLeft,
 			expectedEmoji,
 			showInLeftOrRight,
-			matches
+			matches,
+			showGlow
 		} } = this.props;
 		const randomWidth = Math.random() * (window.innerWidth / 2) + 100;
     return (
@@ -242,6 +243,10 @@ export default class Call extends React.Component {
 							transform: matches > 5 ? 'scale(0)' : null
 						}}
 					/>
+					<div
+						className="shadow"
+						style={{ boxShadow: showGlow ? `inset 0px 0px 60px 24px ${showGlow}` : 'none' }}
+					></div> : ''
 				</div>
         {Object.keys(this.state.remoteStreams).map(key => {
           let stream = this.state.remoteStreams[key];

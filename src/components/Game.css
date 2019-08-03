@@ -10,3 +10,13 @@
 	border-radius: 48px;
 	transition: all 1s;
 }
+
+.shadow {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 50vh;
+	box-shadow: inset 0px 0px 60px 24px rgba(244, 58, 16, 0.6);
+	/* box-shadow: inset 0px 0px 60px 24px rgba(255, 224, 80, 0.6); */
+	transition: all 1s;
+}

@@ -17,6 +17,7 @@ class Home extends Component {
 		// manage emoji shown and position updates
 		this.emojiInterval = null;
 
+		this.showGlow = this.showGlow.bind(this);
 		this.startGame = this.startGame.bind(this);
 		this.feedEmojiRecogResult = this.feedEmojiRecogResult.bind(this);
   }
@@ -37,6 +38,7 @@ class Home extends Component {
 				if (this.state.gameState.timeLeft === 1) {
 					// change emoji here, player couldn't get previous emoji match done
 					clearInterval(this.emojiInterval);
+					this.showGlow(false);
 					setTimeout(() => this.startGame(), 2000);
 				} else {
 					this.setState({
@@ -48,6 +50,24 @@ class Home extends Component {
 				}
 			}, 900);
 		});
+	}
+
+	showGlow(happy) {
+		this.setState({
+			gameState: {
+				...this.state.gameState,
+				state: GAME_STATES.NO_EMOJI,
+				showGlow: happy ? 'rgba(255, 224, 80, 0.6)' : 'rgba(244, 58, 16, 0.6)'
+			}
+		});
+		setTimeout(() => {
+			this.setState({
+				gameState: {
+					...this.state.gameState,
+					showGlow: null
+				}
+			});
+		}, 2000);
 	}
 
 	feedEmojiRecogResult(emoji) {
@@ -66,12 +86,7 @@ class Home extends Component {
 				}
 			}, () => {
 				if (this.state.gameState.matches > 5) {
-					this.setState({
-						gameState: {
-							...this.state.gameState,
-							state: GAME_STATES.NO_EMOJI
-						}
-					});
+					this.showGlow(true);
 					if (this.emojiInterval) clearInterval(this.emojiInterval);
 					setTimeout(() => this.startGame(), Math.random() * 5000 + 2000);
 				}
