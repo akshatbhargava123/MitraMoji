@@ -41,34 +41,82 @@ export default class Call extends React.Component {
         console.log("getUserMedia successfully");
 				this.localStream.play("agora_local");
 
-				/*
-					Face detector configuration - If not specified, defaults to F
-					affdex.FaceDetectorMode.LARGE_FACES
-					affdex.FaceDetectorMode.LARGE_FACES=Faces occupying large portions of the frame
-					affdex.FaceDetectorMode.SMALL_FACES=Faces occupying small portions of the frame
-				*/
+				const video = document.getElementsByTagName('video')[0];
+				const canvas = document.getElementById('our-canvas');
+				const context = canvas.getContext('2d');
 
+				let cw, ch;
 				const faceMode = affdex.FaceDetectorMode.LARGE_FACES;
-
-				//Construct a FrameDetector and specify the image width / height and face detector mode.
 				const detector = new affdex.FrameDetector(faceMode);
-				detector.addEventListener("onInitializeSuccess", function() {});
-				detector.addEventListener("onInitializeFailure", function() {});
+				detector.detectAllExpressions();
+				detector.detectAllEmotions();
 				detector.detectAllEmojis();
+				detector.detectAllAppearance();
 				detector.start();
-				console.log(document.getElementsByTagName('video')[0]);
+
+				video.addEventListener('play', function(){
+					cw = video.clientWidth;
+					ch = video.clientHeight;
+					canvas.width = cw;
+					canvas.height = ch;
+					canvas.style.display = 'none';
+
+					const startTimestamp = (new Date()).getTime() / 1000;
+					
+					const draw = () => {
+						context.drawImage(video, 0, 0, cw, ch);
+						const imageData = context.getImageData(0, 0, cw, ch);
+						const now = (new Date()).getTime() / 1000;
+						const deltaTime = now - startTimestamp;
+						detector.process(imageData, deltaTime);
+
+						setTimeout(() => draw(), 100);
+					};
+
+					//Construct a FrameDetector and specify the image width / height and face detector mode.
+					detector.addEventListener("onInitializeSuccess", () => {
+						console.log('affectiva initialisation SUCCESS!');
+						draw();
+					});
+					detector.addEventListener("onInitializeFailure", () => {
+						console.log('affectiva initialisation FAILED!');
+					});
+					detector.addEventListener("onImageResultsSuccess", (faces) => {
+						if (faces.length) {
+							const face = faces[0];
+							switch (face.emojis.dominantEmoji) {
+								case '😐': return console.log('neutral!');
+								case '😏': return console.log('asdinsa');
+								case '😞': return console.log('sad');
+								case '😗': return console.log('kiss');
+								case '😒': return console.log('kiss');
+								case '😜': return console.log('tough out stuck');
+								case '😗': return console.log('kiss');
+								case '😗': return console.log('kiss');
+								default: return console.log('');
+							}
+						}
+					});
+					detector.addEventListener("onImageResultsFailure", (image, timestamp, err_detail) => {
+						console.log('IMAGE RESULT FAILED, timestamp');
+						console.log(timestamp);
+					});
+					console.log();
+				}, false);
+				
       },
       (err) => {
         console.log("getUserMedia failed", err);
       }
     );
-  };
+	};
 
   initClient = () => {
     client.init(
       APP_ID,
       () => {
-        console.log("AgoraRTC client initialized");
+				console.log("AgoraRTC client initialized");
+				this.joinChannel();
       },
       (err) => {
         console.log("AgoraRTC client init failed", err);
@@ -169,7 +217,8 @@ export default class Call extends React.Component {
 	render() {
     return (
       <div>
-        <div id="agora_local" style={{ width: "400px", height: "400px" }} />
+        <div id="agora_local" style={{ width: "100%", height: "50vh" }} />
+				<canvas id="our-canvas" />
         {Object.keys(this.state.remoteStreams).map(key => {
           let stream = this.state.remoteStreams[key];
           let streamId = stream.getId();
@@ -177,7 +226,7 @@ export default class Call extends React.Component {
             <div
               key={streamId}
               id={`agora_remote ${streamId}`}
-              style={{ width: "400px", height: "400px" }}
+              style={{ width: "100%", height: "50vh" }}
             />
           );
         })}
