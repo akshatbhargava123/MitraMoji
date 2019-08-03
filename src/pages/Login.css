@@ -1,0 +1,94 @@
+body {
+  font-family: Montserrat;
+  background: url('https://data.whicdn.com/images/147451453/original.jpg') no-repeat fixed center center;
+  background-size: cover;
+}
+
+.login-block {
+  width: 320px;
+  padding: 20px;
+  background:rgba( 0, 0, 0, 0.6 );
+  border-radius: 5px;
+  margin: 0 auto;
+  position: absolute;
+  top: 12rem;
+}
+.forget {
+  font-size: 14px;
+  font-weight: 600;
+  position: inline-block;
+  float: right;
+  margin-bottom: 8px;
+  margin-top: 0px;
+  color: white;
+  cursor: pointer;
+}
+.forget:hover {
+  cursor: pointer;
+  text-decoration: underline
+}
+.login-block h1 {
+  text-align: center;
+  color: white;
+  font-size: 26px;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.login-block input {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-family: Montserrat;
+  padding: 0 20px 0 50px;
+  outline: none;
+}
+
+.login-block input#username {
+  background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+  background-size: 16px 80px;
+}
+
+.login-block input#username:focus {
+  background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px bottom no-repeat;
+  background-size: 16px 80px;
+}
+
+.login-block input#password {
+  background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+  background-size: 16px 80px;
+}
+
+.login-block input#password:focus {
+  background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px bottom no-repeat;
+  background-size: 16px 80px;
+}
+
+.login-block input:active, .login-block input:focus {
+  border: 1px solid #a7935e;
+}
+
+.login-block button {
+  width: 100%;
+  height: 40px;
+  background: #f8c331;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #a7935e;
+  color: black;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-family: Montserrat;
+  outline: none;
+  cursor: pointer;
+}
+
+.login-block button:hover {
+  background: #f8c331;
+}
