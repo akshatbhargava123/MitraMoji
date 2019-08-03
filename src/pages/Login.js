@@ -21,11 +21,11 @@ export default class Login extends Component {
     return (
       <div className="main-container">
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'></link>
-        <div className="logo"></div>
         <div className="login-block">
-            <h1>Login</h1>
+            <h1>मित्रMoji</h1>
             <input type="text" placeholder="Username" name="userName" id="username" onChange={this.onChange} />
             <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
+            <p class="forget">Forget Password</p>
             <button onClick={this.login}>Submit</button>
         </div>
       </div>
