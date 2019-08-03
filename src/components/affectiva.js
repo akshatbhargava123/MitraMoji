@@ -1,6 +1,6 @@
 
 //Global namespace
-var affdex = affdex || {};
+var affdex = {};
 affdex.version="3.2.1.583-b86b1d2"
 affdex.getAffdexDotJsLocation = function() {
   // var scripts = document.getElementsByTagName('script');
@@ -154,7 +154,8 @@ affdex.Detector = function() {
           break;
         case "results":
           self.onImageResults(status, evt.data);
-          break;
+					break;
+				default: return;
       }
     }
   };
