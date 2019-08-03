@@ -222,7 +222,8 @@ export default class Call extends React.Component {
 		const { gameState: {
 			timeLeft,
 			expectedEmoji,
-			showInLeftOrRight
+			showInLeftOrRight,
+			matches
 		} } = this.props;
 		const randomWidth = Math.random() * (window.innerWidth / 2) + 100;
     return (
@@ -237,7 +238,8 @@ export default class Call extends React.Component {
 						style={{
 							bottom: `${100 - (timeLeft * 5) + 5}%`,
 							left: showInLeftOrRight === -1 ? (timeLeft % 2 === 0 ?  randomWidth: (randomWidth) + 40) : null,
-							right: showInLeftOrRight === 1 ? (timeLeft % 2 === 0 ?  randomWidth: (randomWidth) + 40) : null
+							right: showInLeftOrRight === 1 ? (timeLeft % 2 === 0 ?  randomWidth: (randomWidth) + 40) : null,
+							transform: matches > 5 ? 'scale(0)' : null
 						}}
 					/>
 				</div>

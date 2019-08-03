@@ -14,13 +14,15 @@ class Home extends Component {
 			}
 		};
 		
+		// manage emoji shown and position updates
+		this.emojiInterval = null;
+
 		this.startGame = this.startGame.bind(this);
 		this.feedEmojiRecogResult = this.feedEmojiRecogResult.bind(this);
   }
 	
 	startGame() {
 		const randomEmoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-		console.log('RANDON EMOJI', randomEmoji);
 		this.setState({
 			gameState: {
 				expectedEmoji: randomEmoji,
@@ -28,15 +30,14 @@ class Home extends Component {
 				state: GAME_STATES.RUNNING,
 				timeLeft: 10, // in seconds,
 				showInLeftOrRight: Math.random() > 0.5 ? 1 : -1,
+				matches: 0
 			}
 		}, () => {
-			const interval = setInterval(() => {
-				console.log(this.state.gameState)
+			this.emojiInterval = setInterval(() => {
 				if (this.state.gameState.timeLeft === 1) {
 					// change emoji here, player couldn't get previous emoji match done
-					console.log("%c CLEAR INTERVAL", "font-size: 30px")
-					clearInterval(interval);
-					this.startGame();
+					clearInterval(this.emojiInterval);
+					setTimeout(() => this.startGame(), 2000);
 				} else {
 					this.setState({
 						gameState: {
@@ -53,11 +54,28 @@ class Home extends Component {
 		// return if game is not running currently
 		if (this.state.gameState.state !== GAME_STATES.RUNNING) return;
 
+		// just for giving delays in showing emojis
+		if (this.state.gameState.timeLeft > 9) return;
+
 		console.log(emoji, this.state.gameState.expectedEmoji.text);
 		if (emoji === this.state.gameState.expectedEmoji.text) {
-			console.log('MATCH MATCH MATCH!!!');
-		} else {
-			console.log('CHANGE EMOJI NOW!');
+			this.setState({
+				gameState: {
+					...this.state.gameState,
+					matches: this.state.gameState.matches + 1
+				}
+			}, () => {
+				if (this.state.gameState.matches > 5) {
+					this.setState({
+						gameState: {
+							...this.state.gameState,
+							state: GAME_STATES.NO_EMOJI
+						}
+					});
+					if (this.emojiInterval) clearInterval(this.emojiInterval);
+					setTimeout(() => this.startGame(), Math.random() * 5000 + 2000);
+				}
+			});
 		}
 		// switch (emoji) {
 		// 	case '😐': return console.log('neutral!');
