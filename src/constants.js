@@ -28,7 +28,7 @@ export const EMOJIS = [
 		imageSrc: 'https://static.xx.fbcdn.net/images/emoji.php/v9/tf8/2/32/1f61b.png'
 	},
 	{
-		text: '😒',
+		text: '😏',
 		imageSrc: 'https://static.xx.fbcdn.net/images/emoji.php/v9/tc8/2/32/1f612.png'
 	},
 	{
