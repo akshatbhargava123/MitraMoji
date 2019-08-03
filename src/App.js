@@ -1,21 +1,6 @@
-import React, { Component } from "react";
-import Call from "./components/Call";
+import React from "react";
+import AppRouter from "./routing";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      channel: "MY_CHANNEL"
-    };
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <Call channel={this.state.channel} />
-      </div>
-    );
-  }
-}
+const App = () => <AppRouter />;
 
 export default App;
