@@ -1,0 +1,12 @@
+.emoji {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 100%;
+	left: 0;
+	right: 0;
+	box-shadow: -1px -1px 69px -10px rgba(255,255,255,0.54);
+	padding: 4px;
+	border-radius: 48px;
+	transition: all 1s;
+}
