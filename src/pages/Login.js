@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import './Login.css';
 
 export default class Login extends Component {
   constructor(props) {
@@ -8,20 +9,25 @@ export default class Login extends Component {
       password: ""
     };
   }
-  onChange = e => {
+  onChange = e => { 
     let { name, value } = e.target;
     this.setState({ [name]: value });
   };
-  onSubmit = e => {
+  login = e => {
     e.preventDefault();
-    console.log("Submiting ", this.state.channel);
-    this.props.selectChannel(this.state.channel);
-    this.setState({ channel: "" });
+    console.log("Submiting ", this.state);
   };
   render() {
     return (
-      <div>
-        <p>hello</p>
+      <div className="main-container">
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'></link>
+        <div className="logo"></div>
+        <div className="login-block">
+            <h1>Login</h1>
+            <input type="text" placeholder="Username" name="userName" id="username" onChange={this.onChange} />
+            <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
+            <button onClick={this.login}>Submit</button>
+        </div>
       </div>
     );
   }
