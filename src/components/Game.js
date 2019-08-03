@@ -2,22 +2,25 @@ import React from "react";
 import AgoraRTC from "agora-rtc-sdk";
 import affdex from './affectiva';
 import { APP_ID } from '../constants';
+import './Game.css';
 
 let client = AgoraRTC.createClient({ mode: "live", codec: "h264" });
 const USER_ID = Math.floor(Math.random() * 1000000001);
 
-export default class Call extends React.Component {
+export default class Game extends React.Component {
 
 	constructor(props) {
 		super(props);
 
-		console.log('component initialised!');
 		this.localStream = AgoraRTC.createStream({
 			streamID: USER_ID,
 			audio: true,
 			video: true,
 			screen: false
 		});
+
+		// affectiva detector instance
+		this.detector = null;
 
 		this.state = {
 			remoteStreams: []
@@ -29,10 +32,15 @@ export default class Call extends React.Component {
     this.initClient();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.channel !== this.props.channel && this.props.channel !== "") {
-      this.joinChannel();
-    }
+  componentDidUpdate() {
+		// console.log('updating....', this.props);
+		// if (this.detector) {
+		// 	if (this.props.gameState !== GAME_STATES.RUNNING) {
+		// 		this.detector.stop();
+		// 	} else {
+		// 		this.detector.start();
+		// 	}
+		// }
   }
 
   initLocalStream = () => {
@@ -47,14 +55,14 @@ export default class Call extends React.Component {
 
 				let cw, ch;
 				const faceMode = affdex.FaceDetectorMode.LARGE_FACES;
-				const detector = new affdex.FrameDetector(faceMode);
-				detector.detectAllExpressions();
-				detector.detectAllEmotions();
-				detector.detectAllEmojis();
-				detector.detectAllAppearance();
-				detector.start();
+				this.detector = new affdex.FrameDetector(faceMode);
+				// this.detector.detectAllExpressions();
+				// this.detector.detectAllEmotions();
+				this.detector.detectAllEmojis();
+				// this.detector.detectAllAppearance();
+				this.detector.start();
 
-				video.addEventListener('play', function(){
+				video.addEventListener('play', () => {
 					cw = video.clientWidth;
 					ch = video.clientHeight;
 					canvas.width = cw;
@@ -68,36 +76,26 @@ export default class Call extends React.Component {
 						const imageData = context.getImageData(0, 0, cw, ch);
 						const now = (new Date()).getTime() / 1000;
 						const deltaTime = now - startTimestamp;
-						detector.process(imageData, deltaTime);
+						this.detector.process(imageData, deltaTime);
 
 						setTimeout(() => draw(), 100);
 					};
 
 					//Construct a FrameDetector and specify the image width / height and face detector mode.
-					detector.addEventListener("onInitializeSuccess", () => {
+					this.detector.addEventListener("onInitializeSuccess", () => {
 						console.log('affectiva initialisation SUCCESS!');
 						draw();
 					});
-					detector.addEventListener("onInitializeFailure", () => {
+					this.detector.addEventListener("onInitializeFailure", () => {
 						console.log('affectiva initialisation FAILED!');
 					});
-					detector.addEventListener("onImageResultsSuccess", (faces) => {
+					this.detector.addEventListener("onImageResultsSuccess", (faces) => {
 						if (faces.length) {
 							const face = faces[0];
-							switch (face.emojis.dominantEmoji) {
-								case '😐': return console.log('neutral!');
-								case '😏': return console.log('asdinsa');
-								case '😞': return console.log('sad');
-								case '😗': return console.log('kiss');
-								case '😒': return console.log('kiss');
-								case '😜': return console.log('tough out stuck');
-								case '😗': return console.log('kiss');
-								case '😗': return console.log('kiss');
-								default: return console.log('');
-							}
+							this.props.feedEmojiRecogResult(face.emojis.dominantEmoji);
 						}
 					});
-					detector.addEventListener("onImageResultsFailure", (image, timestamp, err_detail) => {
+					this.detector.addEventListener("onImageResultsFailure", (image, timestamp, err_detail) => {
 						console.log('IMAGE RESULT FAILED, timestamp');
 						console.log(timestamp);
 					});
@@ -146,7 +144,10 @@ export default class Call extends React.Component {
         }
       },
       () => {
-				console.log(this.state.remoteStreams);
+				this.props.onGameStart();
+				if (Object.keys(this.state.remoteStreams).length === 1) {
+					console.log("%c Remote stream added", "font-size: 40px");
+				}
         // Subscribe after new remoteStreams state set to make sure
         // new stream dom el has been rendered for agora.io sdk to pick up
         client.subscribe(stream, (err) => {
@@ -162,12 +163,14 @@ export default class Call extends React.Component {
       this.props.channel,
       USER_ID,
       (uid) => {
-        console.log("User " + uid + " join channel successfully");
+				console.log("User " + uid + " join channel successfully");
         client.publish(this.localStream, (err) => {
           console.log("Publish local stream error: " + err);
         });
 
         client.on("stream-published", (evt) => {
+					// for testing only
+					this.props.onGameStart();
           console.log("Publish local stream successfully");
         });
       },
@@ -213,12 +216,37 @@ export default class Call extends React.Component {
       console.log(evt.uid + " leaved from this channel");
     }
   };
-
+	
 	render() {
+		const { gameState: {
+			timeLeft,
+			expectedEmoji,
+			showInLeftOrRight,
+			matches,
+			showGlow
+		} } = this.props;
+		const randomWidth = Math.random() * (window.innerWidth / 2) + 100;
     return (
       <div>
         <div id="agora_local" style={{ width: "100%", height: "50vh" }} />
 				<canvas id="our-canvas" />
+				<div>
+					<img
+						className="emoji"
+						src={expectedEmoji.imageSrc}
+						alt={expectedEmoji.text}
+						style={{
+							bottom: `${100 - (timeLeft * 5) + 5}%`,
+							left: showInLeftOrRight === -1 ? (timeLeft % 2 === 0 ?  randomWidth: (randomWidth) + 40) : null,
+							right: showInLeftOrRight === 1 ? (timeLeft % 2 === 0 ?  randomWidth: (randomWidth) + 40) : null,
+							transform: matches > 5 ? 'scale(0)' : null
+						}}
+					/>
+					<div
+						className="shadow"
+						style={{ boxShadow: showGlow ? `inset 0px 0px 60px 24px ${showGlow}` : 'none' }}
+					></div> : ''
+				</div>
         {Object.keys(this.state.remoteStreams).map(key => {
           let stream = this.state.remoteStreams[key];
           let streamId = stream.getId();
