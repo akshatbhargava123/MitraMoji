@@ -1,5 +1,6 @@
 import React from "react";
 import AgoraRTC from "agora-rtc-sdk";
+import affdex from './affectiva';
 import { APP_ID } from '../constants';
 
 let client = AgoraRTC.createClient({ mode: "live", codec: "h264" });
@@ -10,6 +11,7 @@ export default class Call extends React.Component {
 	constructor(props) {
 		super(props);
 
+		console.log('component initialised!');
 		this.localStream = AgoraRTC.createStream({
 			streamID: USER_ID,
 			audio: true,
@@ -37,7 +39,24 @@ export default class Call extends React.Component {
     this.localStream.init(
       () => {
         console.log("getUserMedia successfully");
-        this.localStream.play("agora_local");
+				this.localStream.play("agora_local");
+
+				/*
+					Face detector configuration - If not specified, defaults to F
+					affdex.FaceDetectorMode.LARGE_FACES
+					affdex.FaceDetectorMode.LARGE_FACES=Faces occupying large portions of the frame
+					affdex.FaceDetectorMode.SMALL_FACES=Faces occupying small portions of the frame
+				*/
+
+				const faceMode = affdex.FaceDetectorMode.LARGE_FACES;
+
+				//Construct a FrameDetector and specify the image width / height and face detector mode.
+				const detector = new affdex.FrameDetector(faceMode);
+				detector.addEventListener("onInitializeSuccess", function() {});
+				detector.addEventListener("onInitializeFailure", function() {});
+				detector.detectAllEmojis();
+				detector.start();
+				console.log(document.getElementsByTagName('video')[0]);
       },
       (err) => {
         console.log("getUserMedia failed", err);
