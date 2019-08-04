@@ -5,14 +5,23 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: 'dsmmks'
+      username: ''
     };
   }
+  componentDidMount() {
+    this.setState({
+      username: this.props.location.state.userName
+    });
+  }
+  startGame() {
 
+  }
   render() {
     return (
-      <div className="App">
+      <div className="main">
         <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/female1-512.png" alt="avatar" className="avatar" />
+        <h3 className="username">{ this.state.username }</h3>
+        <button onClick={this.startGame}>Start</button>
       </div>
     );
   }

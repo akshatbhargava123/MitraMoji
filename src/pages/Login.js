@@ -22,7 +22,13 @@ export default class Login extends Component {
      .auth()
      .signInWithEmailAndPassword(userName, password)
      .then((user) => {
-       this.props.history.push('/home');
+        this.props.history.push({
+          pathname: '/home',
+          state: {
+            userName
+          }
+        })
+       
      })
      .catch((error) => {
         console.log(error)
@@ -36,13 +42,12 @@ export default class Login extends Component {
   render() {
     return (
       <div className="main-container">
-        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'></link>
         <div className="login-block">
-            <h1>मित्रMoji</h1>
-            <input type="text" placeholder="Email" name="userName" id="username" onChange={this.onChange} />
-            <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
-            <p className="forget" onClick={this.forgetPassword}>Forget Password</p>
-            <button onClick={this.login}>Submit</button>
+          <h1>मित्रMoji</h1>
+          <input type="text" placeholder="Email" name="userName" id="username" onChange={this.onChange} />
+          <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
+          <p className="forget" onClick={this.forgetPassword}>Forget Password</p>
+          <button onClick={this.login}>Submit</button>
         </div>
       </div>
     );
