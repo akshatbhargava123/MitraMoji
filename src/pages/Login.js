@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import firebase from '../firebase.init';
 import './Login.css';
+import language from "../assets/language";
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -9,11 +10,11 @@ export default class Login extends Component {
       password: "",
       error: null,
       language: [
-        { name: 'English' },
-        { name: 'Hindi' },
-        { name: 'Kannada' }
+        { name: 'English', key: 'english' },
+        { name: 'Hindi', key: 'hindi' },
+        { name: 'Kannada', key: 'kannada' }
       ],
-      selected: 0
+      langSelected: 0
     };
   }
   onChange = e => { 
@@ -47,24 +48,28 @@ export default class Login extends Component {
     this.props.history.push('/forget-password')
   }
   changeLanguage = (key) => {
-    this.setState({ selected: key });
+    this.setState({ langSelected: key });
+    localStorage.setItem('lang', this.state.language[key].key);
+
   }
   render() {
+    const { langSelected, language: stateLangs } = this.state;
+    const langKey = stateLangs[langSelected].key;
     return (
       <div className="main-container">
         <div className="login-block" style={{top: '8rem'}}>
           <h1>मित्रMoji</h1>
-          <input type="text" placeholder="Email" name="userName" id="username" onChange={this.onChange} />
-          <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
-          <p className="forget" onClick={this.forgetPassword}>Forget Password</p>
-          <button onClick={this.login}>Login</button>
-					<button onClick={this.signup}>New? Sign up now!</button>
-          <p className="language-heading">Choose your comfortable language</p>
+          <input type="text" placeholder={language[langKey].EMAIL} name="userName" id="username" onChange={this.onChange} />
+          <input type="password" placeholder={language[langKey].PASSWORD} name="password" id="password" onChange={this.onChange} />
+          <p className="forget" onClick={this.forgetPassword}>{language[langKey].FORGET_PASSWORD}</p>
+          <button onClick={this.login}>{language[langKey].LOGIN}</button>
+					<button onClick={this.signup}>{language[langKey].NEW}? {language[langKey].SIGN_UP_NOW}</button>
+          <p className="language-heading">{language[langKey].CHOOSE_YOUR_LANGUAGE}</p>
           <div className="language">
           {
             this.state.language.map((lang, i) => (
               <p
-                className={this.state.selected === i ? 'selected-language' : ''}
+                className={this.state.langSelected === i ? 'selected-language' : ''}
                 onClick={() => this.changeLanguage(i)}
                 key={i}
               >
