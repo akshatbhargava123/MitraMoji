@@ -32,8 +32,7 @@ class InGame extends Component {
 		firebase.firestore()
 		.collection('matchmaking')
 		.doc(match.timestamp)
-		.get()
-		.then(res => {
+		.onSnapshot(res => {
 			const match = res.data();
 			this.setState({ match, channel: match.timestamp, user });
 		});
@@ -82,7 +81,7 @@ class InGame extends Component {
 			gameState: {
 				...this.state.gameState,
 				state: GAME_STATES.NO_EMOJI,
-				score: Math.max(0, (this.state.gameState.score + (happy ? 30 : -15))),
+				score: Math.max(0, (this.state.gameState.score + (happy ? 50 : 0))),
 				showGlow: happy ? 'rgba(255, 224, 80, 0.6)' : 'rgba(244, 58, 16, 0.6)'
 			}
 		});
@@ -95,7 +94,7 @@ class InGame extends Component {
 			.update({
 				[playerKey]: {
 					...this.state.match[playerKey],
-					score: Math.max(0, (this.state.gameState.score + (happy ? 30 : -15))),
+					score: Math.max(0, (this.state.gameState.score + (happy ? 50 : 0))),
 				}
 			});
 
