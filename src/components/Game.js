@@ -227,7 +227,8 @@ export default class Game extends React.Component {
 				matches,
 				showGlow,
 				score
-			}
+			},
+			match
 		} = this.props;
 		const userInfo = JSON.parse(localStorage.getItem('user'));
 		const randomWidth = Math.random() * (window.innerWidth / 2) + 100;
@@ -242,7 +243,7 @@ export default class Game extends React.Component {
 					</span>
 				</div>
 				<div className="player-header" style={{ top: '50%' }}>
-					<span>Preetam</span>
+					<span>{userInfo.displayName === match.player1.name ? match.player2.name : match.player1.name}</span>
 					<span>100</span>
 				</div>
 				<div>

@@ -9,12 +9,14 @@ class Home extends Component {
     this.state = {
 			user: {},
 			findingMatch: false,
+			match: null,
+			matchFound: false,
 			selfHosted: false,
-			user: {},
       language: {}
 		};
 
 		this.unsubscribe = null;
+		this.startMatch = this.startMatch.bind(this);
   }
   componentDidMount() {
     this.setState({ user: JSON.parse(localStorage.getItem('user') || {}) });
@@ -30,14 +32,27 @@ class Home extends Component {
 			
 			// find and join someone else' hosted match
 			matches.forEach(match => {
-				if (match.status === 'FINDING') {
+				if (match.status === 'FINDING' && match.player1.uid !== this.state.user) {
+					this.unsubscribe();
+					joined = true;
 					matchmakingCollection.doc(match.timestamp).update('status', 'RUNNING');
 					matchmakingCollection.doc(match.timestamp).update('player2', {
 						name: this.state.user.displayName,
 						uid: this.state.user.uid
 					});
-					joined = true;
-					console.log('MATCH FOUND', match);
+					this.setState({
+						findingMatch: false,
+						matchFound: true,
+						match: {
+							...match,
+							status: 'RUNNING',
+							player2: {
+								name: this.state.user.displayName,
+								uid: this.state.user.uid
+							}
+						}
+					});
+					this.startMatch(match);
 				}
 			});
 
@@ -58,13 +73,23 @@ class Home extends Component {
 					const match = res.data();
 					if (match.status === 'RUNNING') {
 						console.log('MATCH STARTED', match);
+						this.setState({
+							findingMatch: false,
+							matchFound: true,
+							match
+						});
+						this.startMatch(match);
 					}
 				});
 			}
 		});
-    // this.props.history.push('/game');
 	}
 	
+	startMatch(match) {
+		localStorage.setItem('match', JSON.stringify(match));
+		this.props.history.push('/game');
+	}
+
 	componentWillUnmount() {
 		if (this.unsubscribe) this.unsubscribe();
 	}

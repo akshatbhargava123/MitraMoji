@@ -6,12 +6,13 @@ class InGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-			channel: "MY_CHANNEL",
+			channel: null,
 			gameState: {
 				state: GAME_STATES.WAITING_FOR_OPPONENT,
 				expectedEmoji: '',
 				score: 0
-			}
+			},
+			match: {}
 		};
 		
 		// manage emoji shown and position updates
@@ -20,7 +21,13 @@ class InGame extends Component {
 		this.showGlow = this.showGlow.bind(this);
 		this.startGame = this.startGame.bind(this);
 		this.feedEmojiRecogResult = this.feedEmojiRecogResult.bind(this);
-  }
+	}
+	
+	componentWillMount() {
+		// init match
+		const match = JSON.parse(localStorage.getItem('match') || {});
+		this.setState({ match, channel: match.timestamp });
+	}
 	
 	startGame() {
 		const randomEmoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
@@ -109,12 +116,16 @@ class InGame extends Component {
   render() {
     return (
       <div className="App">
-        <Game
-					channel={this.state.channel}
-					onGameStart={this.startGame}
-					gameState={this.state.gameState}
-					feedEmojiRecogResult={this.feedEmojiRecogResult}
-				/>
+				{
+					this.state.channel &&
+					<Game
+						match={this.state.match}
+						channel={this.state.channel}
+						onGameStart={this.startGame}
+						gameState={this.state.gameState}
+						feedEmojiRecogResult={this.feedEmojiRecogResult}
+					/>
+				}
       </div>
     );
   }
