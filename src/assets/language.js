@@ -18,5 +18,15 @@ export default {
     SIGN_UP_NOW: 'अभी साइनअप करें!',
     START: 'शुरु',
     SUBMIT: 'जमा करें'
+  },
+  kannada: {
+    EMAIL: 'ಇಮೇಲ್',
+    PASSWORD: 'ಪಾಸ್ವರ್ಡ್',
+    FORGET_PASSWORD: 'ಪಾಸ್ವರ್ಡ್ ಮರೆತುಬಿಡಿ',
+    LOGIN: 'ಲಾಗಿನ್ ಮಾಡಿ',
+    NEW: '',
+    SIGN_UP_NOW: 'ಇದೀಗ ಸೈನ್ ಅಪ್ ಮಾಡಿ!',
+    START: 'ಪ್ರಾರಂಭ',
+    SUBMIT: 'ಸಲ್ಲಿಸಲು'
   }
 }
