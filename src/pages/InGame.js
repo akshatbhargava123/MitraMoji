@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Game from "../components/Game";
+import firebase from '../firebase.init';
 import { GAME_STATES, EMOJIS } from '../constants';
 
 class InGame extends Component {
@@ -17,6 +18,7 @@ class InGame extends Component {
 		
 		// manage emoji shown and position updates
 		this.emojiInterval = null;
+		this.unsubscribe = null;
 
 		this.showGlow = this.showGlow.bind(this);
 		this.startGame = this.startGame.bind(this);
@@ -26,7 +28,15 @@ class InGame extends Component {
 	componentDidMount() {
 		// init match
 		const match = JSON.parse(localStorage.getItem('match') || {});
-		this.setState({ match, channel: match.timestamp });
+		const user = JSON.parse(localStorage.getItem('user') || {});
+		firebase.firestore()
+		.collection('matchmaking')
+		.doc(match.timestamp)
+		.get()
+		.then(res => {
+			const match = res.data();
+			this.setState({ match, channel: match.timestamp, user });
+		});
 	}
 	
 	startGame() {
@@ -68,6 +78,19 @@ class InGame extends Component {
 				showGlow: happy ? 'rgba(255, 224, 80, 0.6)' : 'rgba(244, 58, 16, 0.6)'
 			}
 		});
+
+		// update score online for current player
+		const playerKey = this.state.match.player1.name === this.state.user.displayName ? 'player1' : 'player2';
+		firebase.firestore()
+			.collection('matchmaking')
+			.doc(this.state.match.timestamp)
+			.update({
+				[playerKey]: {
+					...this.state.match[playerKey],
+					score: Math.max(0, (this.state.gameState.score + (happy ? 30 : -15))),
+				}
+			});
+
 		setTimeout(() => {
 			this.setState({
 				gameState: {
@@ -111,6 +134,10 @@ class InGame extends Component {
 		// 	case '😗': return console.log('kiss');
 		// 	default: return console.log('');
 		// }
+	}
+
+	componentWillUnmount() {
+		if (this.unsubscribe) this.unsubscribe();
 	}
 
   render() {
