@@ -56,6 +56,13 @@ class InGame extends Component {
 					// change emoji here, player couldn't get previous emoji match done
 					clearInterval(this.emojiInterval);
 					this.showGlow(false);
+					this.setState({
+						gameState: {
+							...this.state.gameState,
+							timeLeft: 0
+						}
+					});
+					console.log('start game 1 called');
 					setTimeout(() => this.startGame(), 2000);
 				} else {
 					this.setState({
@@ -64,8 +71,9 @@ class InGame extends Component {
 							timeLeft: this.state.gameState.timeLeft - 1
 						}
 					});
+					console.log('timeleft', this.state.gameState.timeLeft - 1);
 				}
-			}, 900);
+			}, 1000);
 		});
 	}
 
@@ -106,7 +114,10 @@ class InGame extends Component {
 		if (this.state.gameState.state !== GAME_STATES.RUNNING) return;
 
 		// just for giving delays in showing emojis
-		if (this.state.gameState.timeLeft > 9) return;
+		if (
+			this.state.gameState.timeLeft > 9 &&
+			this.state.gameState.timeLeft <= 1
+		) return;
 
 		console.log(emoji, this.state.gameState.expectedEmoji.text);
 		if (emoji === this.state.gameState.expectedEmoji.text) {
@@ -119,7 +130,10 @@ class InGame extends Component {
 				if (this.state.gameState.matches > 5) {
 					this.showGlow(true);
 					if (this.emojiInterval) clearInterval(this.emojiInterval);
-					setTimeout(() => this.startGame(), Math.random() * 5000 + 2000);
+					setTimeout(() => {
+						console.log('start game 2 called');
+						this.startGame()
+					}, Math.random() * 5000 + 2000);
 				}
 			});
 		}

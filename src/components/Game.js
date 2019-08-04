@@ -244,7 +244,7 @@ export default class Game extends React.Component {
 				</div>
 				<div className="player-header" style={{ top: '50%' }}>
 					<span>{userInfo.displayName === match.player1.name ? match.player2.name : match.player1.name}</span>
-					<span>100</span>
+					<span>{userInfo.displayName === match.player1.name ? match.player2.score : match.player1.score}</span>
 				</div>
 				<div>
 					<img
