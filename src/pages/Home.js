@@ -5,13 +5,12 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ''
+      user: {}
     };
   }
   componentDidMount() {
-    this.setState({
-      username: this.props.location.state.userName
-    });
+		console.log(this.props.location.state);
+    this.setState({ user: this.props.location.state.user });
   }
   startGame = () => {
     this.props.history.push('/game');
@@ -19,8 +18,11 @@ class Home extends Component {
   render() {
     return (
       <div className="main">
-        <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/female1-512.png" alt="avatar" className="avatar" />
-        <h3 className="username">{ this.state.username }</h3>
+				<div style={{ textAlign: 'center' }}>
+					<img className="avatar-large" src={this.state.user.imageUrl} onClick={this.showUploadPanel} />
+				</div>
+        <img src={this.state.user.photoURL} alt="avatar" className="avatar" width="100%" />
+        <h3 className="username">{this.state.user.displayName}</h3>
         <button className="button" onClick={this.startGame}>Start</button>
       </div>
     );

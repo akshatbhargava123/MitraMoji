@@ -16,7 +16,18 @@ export default class Login extends Component {
       ],
       langSelected: 0
     };
-  }
+	}
+	
+	componentWillMount() {
+		let user = localStorage.getItem('user');
+		if (user) {
+			user = JSON.parse(user);
+			this.props.history.push({
+				pathname: '/home',
+				state: { user }
+			});
+		}
+	}
   onChange = e => { 
     let { name, value } = e.target;
     this.setState({ [name]: value });
@@ -28,14 +39,12 @@ export default class Login extends Component {
     firebase
      .auth()
      .signInWithEmailAndPassword(userName, password)
-     .then((user) => {
+     .then((res) => {
+			 localStorage.setItem('user', JSON.stringify(res.user));
         this.props.history.push({
           pathname: '/home',
-          state: {
-            userName
-          }
-        })
-       
+          state: { user: res.user }
+        });
      })
      .catch((error) => {
         console.log(error)

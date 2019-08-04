@@ -8,7 +8,10 @@ export default class Signup extends Component {
     this.state = {
       userName: "",
       password: "",
-      error: null,
+			error: null,
+			imageUrl: 'https://www.viadelvino.com/wp-content/uploads/2016/02/photo.jpg.png',
+			imageUploading: false,
+			registering: false
     };
 	}
 
@@ -19,22 +22,50 @@ export default class Signup extends Component {
 
   signup = e => {
     e.preventDefault();
-    const { name, email, password } = this.state;
+		const { name, email, password } = this.state;
+		this.setState({ registering: true });
     firebase
      .auth()
      .createUserWithEmailAndPassword(email, password)
      .then((res) => {
-				console.log(res.user);
+				this.setState({ registering: false });
 				res.user.updateProfile({
-					displayName: name
+					displayName: name,
+					photoURL: this.state.imageUrl
 				});
-				this.props.history.push('/home');
+				alert('Registration successful!');
+				this.props.history.push('/login');
      })
      .catch((error) => {
         console.log(error)
         alert(error.message)
         this.setState({ error: error });
      });
+	}
+
+	showUploadPanel = () => {
+		document.getElementById('file-input').click();
+	}
+
+	uploadImage = (event) => {
+		this.setState({ imageUploading: true });
+		const file = event.target.files[0];
+		const timestamp = Number(new Date());
+		const storageRef = firebase
+			.storage()
+			.ref('images')
+			.child(timestamp.toString() + '.jpg');
+		storageRef.put(file).then(() => {
+			firebase
+				.storage()
+				.ref('images/' + timestamp.toString() + '.jpg')
+				.getDownloadURL().then(url => {
+					this.setState({
+						imageUrl: url,
+						imageUploading: false
+					});
+				});
+		});
 	}
 
   login = () => {
@@ -48,13 +79,20 @@ export default class Signup extends Component {
         <div className="login-block" style={{ top: '8rem' }}>
             <h1>मित्रMoji</h1>
 						<div style={{ textAlign: 'center' }}>
-							<img className="avatar-image" src="https://www.viadelvino.com/wp-content/uploads/2016/02/photo.jpg.png" alt="avatar"/>
+							<img className="avatar-image" src={this.state.imageUrl} alt="avatar" onClick={this.showUploadPanel} />
 						</div>						
-						<input type="text" placeholder="Name" name="name" id="username" onChange={this.onChange} />
-            <input type="text" placeholder="Email" name="email" id="username" onChange={this.onChange} />
-            <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
+						<input type="file" hidden id="file-input" onChange={this.uploadImage} />
+						<input type="text" placeholder="Name" name="name" onChange={this.onChange} />
+            <input type="text" placeholder="Email" name="email" onChange={this.onChange} />
+            <input type="password" placeholder="Password" name="password" onChange={this.onChange} />
             <p className="forget" onClick={this.login}>Already signed up?</p>
-            <button onClick={this.signup}>Register</button>
+						{
+							this.state.imageUploading ?
+								<button>Uploading Image...</button> :
+								<button onClick={this.signup}>
+									Register
+								</button>
+						}
         </div>
       </div>
     );
