@@ -21,7 +21,7 @@ class Home extends Component {
       <div className="main">
         <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/female1-512.png" alt="avatar" className="avatar" />
         <h3 className="username">{ this.state.username }</h3>
-        <button onClick={this.startGame}>Start</button>
+        <button className="button" onClick={this.startGame}>Start</button>
       </div>
     );
   }
