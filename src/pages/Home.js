@@ -21,6 +21,10 @@ class Home extends Component {
     const langKey = localStorage.getItem('lang') || 'english';
     this.setState({ language: languages[langKey] });
   }
+  logOut = () => {
+    localStorage.removeItem('user');
+    this.props.history.push('/login');
+  }
   startGame = () => {
 		this.setState({ findingMatch: true });
 		const matchmakingCollection = firebase.firestore().collection('matchmaking');
@@ -67,7 +71,7 @@ class Home extends Component {
 	
 	componentWillUnmount() {
 		if (this.unsubscribe) this.unsubscribe();
-	}
+  }
 
   render() {
     const { language, findingMatch } = this.state;
@@ -80,6 +84,9 @@ class Home extends Component {
         <h2 className="username">{language.WELCOME} {this.state.user.displayName}</h2>
 				<button className="button" onClick={this.startGame}>
 					{findingMatch ? language.FINDING_MATCH : language.START}
+				</button>
+        <button className="log-out" onClick={this.logOut}>
+					{language.LOGOUT}
 				</button>
       </div>
     );
