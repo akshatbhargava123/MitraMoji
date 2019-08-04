@@ -1,32 +1,53 @@
 export default {
   english: {
     EMAIL: 'Email',
+    NAME: 'Name',
     PASSWORD: 'Password',
     FORGET_PASSWORD: 'Forget Password',
     LOGIN: 'LOGIN',
     NEW: 'New',
     SIGN_UP_NOW: 'SIGN UP NOW!',
     START: 'START',
-    SUBMIT: 'SUBMIT'
+    SUBMIT: 'SUBMIT',
+    CHOOSE_YOUR_LANGUAGE: 'Choose your language',
+    ALREADY_SIGNED_IN: 'Already signed up',
+    UPLOADING_IMAGE: 'Uploading Image',
+    REGISTER: 'Register',
+		WELCOME: 'Welcome',
+		FINDING_MATCH: 'FINDING MATCH...'
   },
   hindi: {
     EMAIL: 'ईमेल',
+    NAME: 'नाम',
     PASSWORD: 'पासवर्ड',
     FORGET_PASSWORD: 'पासवर्ड भूल गए',
     LOGIN: 'लॉग इन करें',
-    NEW: '',
+    NEW: 'नया',
     SIGN_UP_NOW: 'अभी साइनअप करें!',
     START: 'शुरु',
-    SUBMIT: 'जमा करें'
+    SUBMIT: 'जमा करें',
+    CHOOSE_YOUR_LANGUAGE: 'अपनी भाषा चुनिए',
+    ALREADY_SIGNED_IN: 'पहले से ही साइन इन है',
+    UPLOADING_IMAGE: 'छवि अपलोड कर रहा है',
+    REGISTER: 'रजिस्टर',
+		WELCOME: 'स्वागत हे',
+		FINDING_MATCH: 'मैच ढूंढ रहा है...'
   },
   kannada: {
     EMAIL: 'ಇಮೇಲ್',
     PASSWORD: 'ಪಾಸ್ವರ್ಡ್',
+    NAME: 'ಹೆಸರು',
     FORGET_PASSWORD: 'ಪಾಸ್ವರ್ಡ್ ಮರೆತುಬಿಡಿ',
     LOGIN: 'ಲಾಗಿನ್ ಮಾಡಿ',
-    NEW: '',
+    NEW: 'ಹೊಸದು',
     SIGN_UP_NOW: 'ಇದೀಗ ಸೈನ್ ಅಪ್ ಮಾಡಿ!',
     START: 'ಪ್ರಾರಂಭ',
-    SUBMIT: 'ಸಲ್ಲಿಸಲು'
+    SUBMIT: 'ಸಲ್ಲಿಸಲು',
+    CHOOSE_YOUR_LANGUAGE: 'ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆರಿಸಿ',
+    ALREADY_SIGNED_IN: 'ಈಗಾಗಲೇ ಸೈನ್ ಇನ್ ಆಗಿದೆ',
+    UPLOADING_IMAGE: 'ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ',
+    REGISTER: 'ನೋಂದಣಿ',
+		WELCOME: 'ಸ್ವಾಗತ',
+		FINDING_MATCH: 'ಹೊಂದಾಣಿಕೆಯನ್ನು ಕಂಡುಹಿಡಿಯುವುದು...'
   }
 }

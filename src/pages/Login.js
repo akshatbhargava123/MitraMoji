@@ -27,7 +27,13 @@ export default class Login extends Component {
 				state: { user }
 			});
 		}
-	}
+  }
+  componentDidMount() {
+    const langKey = localStorage.getItem('lang') || 'english';
+    const index = this.state.language.findIndex(l => l.key === langKey);
+    this.setState({ langSelected: index });
+    this.changeLanguage(index);
+  }
   onChange = e => { 
     let { name, value } = e.target;
     this.setState({ [name]: value });
@@ -41,10 +47,7 @@ export default class Login extends Component {
      .signInWithEmailAndPassword(userName, password)
      .then((res) => {
 			 localStorage.setItem('user', JSON.stringify(res.user));
-        this.props.history.push({
-          pathname: '/home',
-          state: { user: res.user }
-        });
+        this.props.history.push('/home');
      })
      .catch((error) => {
         console.log(error)
@@ -59,7 +62,6 @@ export default class Login extends Component {
   changeLanguage = (key) => {
     this.setState({ langSelected: key });
     localStorage.setItem('lang', this.state.language[key].key);
-
   }
   render() {
     const { langSelected, language: stateLangs } = this.state;

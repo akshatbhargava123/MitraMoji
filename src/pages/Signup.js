@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import firebase from '../firebase.init';
+import languages from '../assets/language';
 import './Login.css';
 
 export default class Signup extends Component {
@@ -8,12 +9,18 @@ export default class Signup extends Component {
     this.state = {
       userName: "",
       password: "",
-			error: null,
 			imageUrl: 'https://www.viadelvino.com/wp-content/uploads/2016/02/photo.jpg.png',
 			imageUploading: false,
-			registering: false
+			registering: false,
+      error: null,
+      language: {}
     };
 	}
+
+  componentDidMount() {
+    const langKey = localStorage.getItem('lang') || 'english';
+    this.setState({ language: languages[langKey] });
+  }
 
   onChange = e => { 
     let { name, value } = e.target;
@@ -73,6 +80,7 @@ export default class Signup extends Component {
 	}
 
   render() {
+    const { language } = this.state;
     return (
       <div className="main-container">
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'></link>
@@ -82,15 +90,15 @@ export default class Signup extends Component {
 							<img className="avatar-image" src={this.state.imageUrl} alt="avatar" onClick={this.showUploadPanel} />
 						</div>						
 						<input type="file" hidden id="file-input" onChange={this.uploadImage} />
-						<input type="text" placeholder="Name" name="name" onChange={this.onChange} />
-            <input type="text" placeholder="Email" name="email" onChange={this.onChange} />
-            <input type="password" placeholder="Password" name="password" onChange={this.onChange} />
-            <p className="forget" onClick={this.login}>Already signed up?</p>
+						<input type="text" placeholder={language.NAME} name="name" onChange={this.onChange} />
+            <input type="text" placeholder={language.EMAIL} name="email" onChange={this.onChange} />
+            <input type="password" placeholder={language.PASSWORD} name="password" onChange={this.onChange} />
+            <p className="forget" onClick={this.login}>{language.ALREADY_SIGNED_IN}?</p>
 						{
 							this.state.imageUploading ?
-								<button>Uploading Image...</button> :
+								<button>{language.UPLOADING_IMAGE}...</button> :
 								<button onClick={this.signup}>
-									Register
+									{language.REGISTER}
 								</button>
 						}
         </div>
