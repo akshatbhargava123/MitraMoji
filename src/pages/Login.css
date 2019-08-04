@@ -90,9 +90,16 @@ body {
   font-size: 15px;
   font-family: Montserrat;
   outline: none;
-  cursor: pointer;
+	cursor: pointer;
+	margin: 10px 0px;
 }
 
 .login-block button:hover {
   background: #f8c331;
+}
+
+.avatar-image {
+	border-radius: 50%;
+	width: 100px;
+	margin-bottom: 20px;
 }

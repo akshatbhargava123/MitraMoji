@@ -29,7 +29,8 @@ export default class Login extends Component {
         alert(error.message)
         this.setState({ error: error });
      });
-  };
+	};
+	signup = () => this.props.history.push('/signup');
   forgetPassword = () => {
     this.props.history.push('/forget-password')
   }
@@ -41,8 +42,9 @@ export default class Login extends Component {
             <h1>मित्रMoji</h1>
             <input type="text" placeholder="Email" name="userName" id="username" onChange={this.onChange} />
             <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
-            <p className="forget" onClick={this.forgetPassword}>Forget Password</p>
+						<p className="forget" onClick={this.forgetPassword}>Forget Password</p>
             <button onClick={this.login}>Submit</button>
+						<button onClick={this.signup}>New? Sign up now!</button>
         </div>
       </div>
     );
