@@ -218,18 +218,30 @@ export default class Game extends React.Component {
   };
 	
 	render() {
-		const { gameState: {
-			timeLeft,
-			expectedEmoji,
-			showInLeftOrRight,
-			matches,
-			showGlow
-		} } = this.props;
+		const {
+			gameState: {
+				timeLeft,
+				expectedEmoji,
+				showInLeftOrRight,
+				matches,
+				showGlow,
+				score
+			}
+		} = this.props;
+		const userInfo = JSON.parse(localStorage.getItem('user'));
 		const randomWidth = Math.random() * (window.innerWidth / 2) + 100;
     return (
       <div>
         <div id="agora_local" style={{ width: "100%", height: "50vh" }} />
 				<canvas id="our-canvas" />
+				<div className="player-header">
+					<span>{userInfo.displayName}</span>
+					<span>{score}</span>
+				</div>
+				<div className="player-header" style={{ top: '50%' }}>
+					<span>Preetam</span>
+					<span>100</span>
+				</div>
 				<div>
 					<img
 						className="emoji"
