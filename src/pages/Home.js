@@ -13,8 +13,8 @@ class Home extends Component {
       username: this.props.location.state.userName
     });
   }
-  startGame() {
-
+  startGame = () => {
+    this.props.history.push('/game');
   }
   render() {
     return (
