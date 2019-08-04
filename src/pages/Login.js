@@ -8,6 +8,12 @@ export default class Login extends Component {
       userName: "",
       password: "",
       error: null,
+      language: [
+        { name: 'English' },
+        { name: 'Hindi' },
+        { name: 'Kannada' }
+      ],
+      selected: 0
     };
   }
   onChange = e => { 
@@ -40,16 +46,33 @@ export default class Login extends Component {
   forgetPassword = () => {
     this.props.history.push('/forget-password')
   }
+  changeLanguage = (key) => {
+    this.setState({ selected: key });
+  }
   render() {
     return (
       <div className="main-container">
-        <div className="login-block">
+        <div className="login-block" style={{top: '8rem'}}>
           <h1>मित्रMoji</h1>
           <input type="text" placeholder="Email" name="userName" id="username" onChange={this.onChange} />
           <input type="password" placeholder="Password" name="password" id="password" onChange={this.onChange} />
           <p className="forget" onClick={this.forgetPassword}>Forget Password</p>
-          <button onClick={this.login}>Submit</button>
+          <button onClick={this.login}>Login</button>
 					<button onClick={this.signup}>New? Sign up now!</button>
+          <p className="language-heading">Choose your comfortable language</p>
+          <div className="language">
+          {
+            this.state.language.map((lang, i) => (
+              <p
+                className={this.state.selected === i ? 'selected-language' : ''}
+                onClick={() => this.changeLanguage(i)}
+                key={i}
+              >
+                { lang.name }
+              </p>
+            ))
+          }
+          </div>
         </div>
       </div>
     );

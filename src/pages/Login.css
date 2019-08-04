@@ -31,6 +31,28 @@ body {
   cursor: pointer;
   text-decoration: underline
 }
+
+.language-heading {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: 700;
+  font-size: 17px;
+  color: white;
+  margin-bottom: 0px
+}
+.language {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-weight: 500;
+  margin: 0px 30px;
+  margin-top: 0px
+}
+.selected-language {
+  border: 1px solid #fbbd11;
+  font-weight: 700;
+  padding: 5px;
+}
 .login-block h1 {
   text-align: center;
   color: white;
