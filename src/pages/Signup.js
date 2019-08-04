@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import firebase from '../firebase.init';
 import languages from '../assets/language';
 import './Login.css';
+import click from '../assets/click.wav';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -35,6 +36,8 @@ export default class Signup extends Component {
      .auth()
      .createUserWithEmailAndPassword(email, password)
      .then((res) => {
+      let a = new Audio(click);
+      a.play();
 				this.setState({ registering: false });
 				res.user.updateProfile({
 					displayName: name,
@@ -76,6 +79,8 @@ export default class Signup extends Component {
 	}
 
   login = () => {
+    let a = new Audio(click);
+    a.play();
     this.props.history.push('/login')
 	}
 
