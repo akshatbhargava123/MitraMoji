@@ -35,24 +35,24 @@ class Home extends Component {
 				if (match.status === 'FINDING' && match.player1.uid !== this.state.user) {
 					this.unsubscribe();
 					joined = true;
-					matchmakingCollection.doc(match.timestamp).update('status', 'RUNNING');
-					matchmakingCollection.doc(match.timestamp).update('player2', {
-						name: this.state.user.displayName,
-						uid: this.state.user.uid
-					});
-					this.setState({
-						findingMatch: false,
-						matchFound: true,
-						match: {
-							...match,
-							status: 'RUNNING',
-							player2: {
-								name: this.state.user.displayName,
-								uid: this.state.user.uid
-							}
+					matchmakingCollection.doc(match.timestamp).update({
+						status: 'RUNNING',
+						player2: {
+							name: this.state.user.displayName,
+							uid: this.state.user.uid
 						}
+					}).then(() => {
+						matchmakingCollection.doc(match.timestamp).get().then(res => {
+							const match = res.data();
+							console.log('Starting Match...', match);
+							this.setState({
+								findingMatch: false,
+								matchFound: true,
+								match
+							});
+						});
+						this.startMatch(match);
 					});
-					this.startMatch(match);
 				}
 			});
 

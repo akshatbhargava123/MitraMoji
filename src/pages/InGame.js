@@ -23,7 +23,7 @@ class InGame extends Component {
 		this.feedEmojiRecogResult = this.feedEmojiRecogResult.bind(this);
 	}
 	
-	componentWillMount() {
+	componentDidMount() {
 		// init match
 		const match = JSON.parse(localStorage.getItem('match') || {});
 		this.setState({ match, channel: match.timestamp });
@@ -75,7 +75,7 @@ class InGame extends Component {
 					showGlow: null
 				}
 			});
-		}, 2000);
+		}, 1500);
 	}
 
 	feedEmojiRecogResult(emoji) {
