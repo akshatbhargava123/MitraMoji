@@ -14,7 +14,8 @@ export default {
     UPLOADING_IMAGE: 'Uploading Image',
     REGISTER: 'Register',
 		WELCOME: 'Welcome',
-		FINDING_MATCH: 'FINDING MATCH...'
+    FINDING_MATCH: 'FINDING MATCH...',
+    LOGOUT: 'Logout'
   },
   hindi: {
     EMAIL: 'ईमेल',
@@ -31,7 +32,8 @@ export default {
     UPLOADING_IMAGE: 'छवि अपलोड कर रहा है',
     REGISTER: 'रजिस्टर',
 		WELCOME: 'स्वागत हे',
-		FINDING_MATCH: 'मैच ढूंढ रहा है...'
+    FINDING_MATCH: 'मैच ढूंढ रहा है...',
+    LOGOUT: 'लॉग आउट'    
   },
   kannada: {
     EMAIL: 'ಇಮೇಲ್',
@@ -48,6 +50,7 @@ export default {
     UPLOADING_IMAGE: 'ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ',
     REGISTER: 'ನೋಂದಣಿ',
 		WELCOME: 'ಸ್ವಾಗತ',
-		FINDING_MATCH: 'ಹೊಂದಾಣಿಕೆಯನ್ನು ಕಂಡುಹಿಡಿಯುವುದು...'
+    FINDING_MATCH: 'ಹೊಂದಾಣಿಕೆಯನ್ನು ಕಂಡುಹಿಡಿಯುವುದು...',
+    LOGOUT: 'ಲಾಗ್ .ಟ್ ಆಗುತ್ತಿದೆ'    
   }
 }

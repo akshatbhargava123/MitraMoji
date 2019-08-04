@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import firebase from '../firebase.init';
 import './Login.css';
 import language from "../assets/language";
+import click from '../assets/click.wav';
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -40,13 +41,15 @@ export default class Login extends Component {
   };
   login = e => {
     e.preventDefault();
+    let a = new Audio(click);
+    a.play();
     console.log("Submiting ", this.state);
     const { userName, password } = this.state;
     firebase
      .auth()
      .signInWithEmailAndPassword(userName, password)
      .then((res) => {
-			 localStorage.setItem('user', JSON.stringify(res.user));
+			  localStorage.setItem('user', JSON.stringify(res.user));
         this.props.history.push('/home');
      })
      .catch((error) => {
@@ -55,11 +58,19 @@ export default class Login extends Component {
         this.setState({ error: error });
      });
 	};
-	signup = () => this.props.history.push('/signup');
+	signup = () => {
+    let a = new Audio(click);
+    a.play();
+    this.props.history.push('/signup');
+  }
   forgetPassword = () => {
+    let a = new Audio(click);
+    a.play();
     this.props.history.push('/forget-password')
   }
   changeLanguage = (key) => {
+    let a = new Audio(click);
+    a.play();
     this.setState({ langSelected: key });
     localStorage.setItem('lang', this.state.language[key].key);
   }

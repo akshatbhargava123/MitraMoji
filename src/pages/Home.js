@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from '../firebase.init';
 import './Home.css';
 import languages from '../assets/language'; 
+import click from '../assets/click.wav';
 
 class Home extends Component {
   constructor(props) {
@@ -23,7 +24,15 @@ class Home extends Component {
     const langKey = localStorage.getItem('lang') || 'english';
     this.setState({ language: languages[langKey] });
   }
+  logOut = () => {
+    let a = new Audio(click);
+    a.play();
+    localStorage.removeItem('user');
+    this.props.history.push('/login');
+  }
   startGame = () => {
+    let a = new Audio(click);
+    a.play();
 		this.setState({ findingMatch: true });
 		const matchmakingCollection = firebase.firestore().collection('matchmaking');
 		this.unsubscribe = matchmakingCollection.onSnapshot((res) => {
@@ -92,7 +101,7 @@ class Home extends Component {
 
 	componentWillUnmount() {
 		if (this.unsubscribe) this.unsubscribe();
-	}
+  }
 
   render() {
     const { language, findingMatch } = this.state;
@@ -105,6 +114,9 @@ class Home extends Component {
         <h2 className="username">{language.WELCOME} {this.state.user.displayName}</h2>
 				<button className="button" onClick={this.startGame}>
 					{findingMatch ? language.FINDING_MATCH : language.START}
+				</button>
+        <button className="log-out" onClick={this.logOut}>
+					{language.LOGOUT}
 				</button>
       </div>
     );
