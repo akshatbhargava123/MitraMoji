@@ -1,6 +1,7 @@
 import React from "react";
 import AgoraRTC from "agora-rtc-sdk";
 import affdex from './affectiva';
+import CountUp from 'react-countup';
 import { APP_ID } from '../constants';
 import './Game.css';
 
@@ -236,7 +237,9 @@ export default class Game extends React.Component {
 				<canvas id="our-canvas" />
 				<div className="player-header">
 					<span>{userInfo.displayName}</span>
-					<span>{score}</span>
+					<span>
+						<CountUp end={score} duration={1.2} />
+					</span>
 				</div>
 				<div className="player-header" style={{ top: '50%' }}>
 					<span>Preetam</span>
