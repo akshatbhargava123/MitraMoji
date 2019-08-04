@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-button {
+.button {
   width: 70%;
   height: 60px;
   background: black;
@@ -31,6 +31,6 @@ button {
   margin: auto;
 }
 
-button:hover {
+.button:hover {
   background: #f8c331;
 }
