@@ -1,4 +1,4 @@
-## MitrMoji or FriendMoji
+## MitraMoji (winning project of BootStrap Paradox 2019 Hackathon - Gaming theme)
 
 Bored of doing same old conversations over facetime or Skype? Now it’s time to say hello to MitrMoji, a new way to make daily conversation more interesting and fascinating and happening.
 
